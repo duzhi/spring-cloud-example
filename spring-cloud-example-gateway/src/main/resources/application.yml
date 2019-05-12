@@ -1,0 +1,16 @@
+server:
+  port: 80
+
+# 注释
+spring:
+  cloud:
+    gateway:
+      routes:
+#      - id: a_route
+#        uri: http://example.org
+#        predicates:
+#        - Query=baz=.*m.*
+      - id: b_route
+        uri: http://localhost:8080
+        predicates:
+        - Host=z.daimabaike.com
