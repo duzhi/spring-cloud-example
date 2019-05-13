@@ -1,5 +1,7 @@
 package com.daimabaike.example.openfeign;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,5 +18,9 @@ public class HiController {
 		return hiClient.sayHi(name);
 	}
 
+	@GetMapping("/sf")
+	public String saySf(@RequestParam(defaultValue = "sf", required = false) String name) {
+		return name + new Date();
+	}
 }
 //

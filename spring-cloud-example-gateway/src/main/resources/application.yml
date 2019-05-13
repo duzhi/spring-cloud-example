@@ -7,27 +7,18 @@ server:
 spring:
   application:
     name: gateway
-  mvc:
-    throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
   cloud:
-    consul:
-      host: localhost
-      port: 8500
+#    consul:
+#      host: localhost
+#      port: 8500
     gateway:
       routes:
-#      - id: a_route
-#        uri: http://example.org
-#        predicates:
-#        - Query=baz=.*m.*
+      - id: a_route
+        uri: lb://biz-bar
+        predicates:
+        - Path=/test/**
       - id: b_route
-        uri: lb://biz-foo1
+        uri: lb://biz-foo
         predicates:
-        - Path=/hi
-      - id: loc
-# 转给默认业务系统404
-        uri: http://localhost:8010/404
-        predicates:
-        - Path=/**
+        - Path=/*
 #http://example.org

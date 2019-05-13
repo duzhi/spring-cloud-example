@@ -2,10 +2,13 @@ package com.daimabaike.example.bar;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+/**
+ * 服务注册，只需要配置上 spring.cloud.consul.discovery.service-name 即可，相应的 http 服务就发布出去了
+ * 
+ * @author qibiao
+ */
 @SpringBootApplication
-@EnableDiscoveryClient
 public class App {
 
 	public static void main(String[] args) {

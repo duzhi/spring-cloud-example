@@ -6,12 +6,10 @@ spring:
   profiles:
     active: dev
   application:
-    name: consul-provider
+    name: biz-bar
   cloud:
     consul:
       host: localhost
       port: 8500
-      discovery:
-        serviceName: consul-provider
-        #healthCheckPath: 
-        
+#      discovery:
+#        serviceName: biz-bar

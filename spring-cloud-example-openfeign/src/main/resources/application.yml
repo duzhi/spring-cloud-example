@@ -1,18 +1,18 @@
+server:
+  port: 8110
 
 spring:
   profiles:
     active: dev
   application:
-    name: biz-foo1
+    name: biz-foo
   cloud:
     consul:
       host: localhost
       port: 8500
 #      discovery:
 #        serviceName: zzz
-
-server:
-  port: 8110
+# discovery.serviceName可以不配
 
 feign:
   client:
@@ -26,5 +26,3 @@ feign:
 ribbon:
   restclient:
     enabled: false
-    
-    
