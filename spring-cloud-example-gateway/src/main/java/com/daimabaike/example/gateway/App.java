@@ -14,6 +14,7 @@ public class App {
 	// String uri;
 
 	public static void main(String[] args) {
+//		org.springframework.jdbc.CannotGetJdbcConnectionException
 		SpringApplication.run(App.class, args);
 	}
 

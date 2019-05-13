@@ -1,9 +1,17 @@
 server:
-  port: 80
+  port: 8030
+
+#debug: true
 
 # 注释
 spring:
+  application:
+    name: gateway
+  
   cloud:
+    consul:
+      host: localhost
+      port: 8500
     gateway:
       routes:
 #      - id: a_route
@@ -11,6 +19,7 @@ spring:
 #        predicates:
 #        - Query=baz=.*m.*
       - id: b_route
-        uri: http://localhost:8080
+        uri: lb://biz-foo1
         predicates:
-        - Host=z.daimabaike.com
+        - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+#http://example.org

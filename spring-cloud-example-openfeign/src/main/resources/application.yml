@@ -1,0 +1,30 @@
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: biz-foo1
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+#      discovery:
+#        serviceName: zzz
+
+server:
+  port: 8110
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+## 这个要有，如果不加，只加了上面也没用
+ribbon:
+  restclient:
+    enabled: false
+    
+    

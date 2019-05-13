@@ -34,5 +34,7 @@
 		<module>spring-cloud-example-config-server</module>
 		<module>spring-cloud-example-config-client</module>
     <module>spring-cloud-example-gateway</module>
-  </modules>
+    <module>spring-cloud-example-openfeign</module>
+    <module>spring-cloud-example-bar</module>
+	</modules>
 </project>
