@@ -18,13 +18,21 @@ public class App {
 		SpringApplication.run(App.class, args);
 	}
 
+	/**
+	 * 代码先匹配
+	 * @param builder
+	 * @return
+	 */
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		// @formatter:off
 		return builder.routes()
 				// 路径路由
-				// .route("path_route", r -> r.path("/*")
-				// .uri("http://localhost:8000"))
+
+				 .route("path_route", r -> r.path("/test/**")
+				 .uri("lb://biz-foo"))
+//					.route("path_route", r -> r.path("/**")
+//							 .uri("lb://xx"))
 				// .route("path_route2", r -> r.path("/foo/*")
 				// .uri("http://localhost:8300"))
 

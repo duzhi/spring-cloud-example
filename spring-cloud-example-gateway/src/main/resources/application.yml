@@ -1,7 +1,7 @@
 server:
   port: 8030
 
-#debug: true
+debug: true
 
 # 注释
 spring:
@@ -12,6 +12,8 @@ spring:
 #      host: localhost
 #      port: 8500
     gateway:
+      x-forwarded:
+        forEnabled: false
       routes:
       - id: a_route
         uri: lb://biz-bar
@@ -20,5 +22,9 @@ spring:
       - id: b_route
         uri: lb://biz-foo
         predicates:
-        - Path=/*
+        - Path=/**
+      - id: b_route2
+        uri: lb://biz-bar
+        predicates:
+        - Path=/get
 #http://example.org

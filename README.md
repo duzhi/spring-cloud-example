@@ -6,10 +6,21 @@
 
 ## 服务注册和发现
 
-Consul 最好
+Consul 最好，服务发现，openfeign + ribbon
+
+流控：Sentinel vs Hystrix
 
 ## 配置中心
 
 Consul
 
 ## 网关
+
+X-Forwarded-* 追加/覆盖
+删除 HTTP 头
+
+## Request Response
+
+如何蓝绿发布：
+/actuator/health
+

@@ -15,14 +15,20 @@ spring:
 # discovery.serviceName可以不配
 
 feign:
+  hystrix:
+    enabled: true
   client:
     config:
       default:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+#        retryer: feign.Retryer.Default
+
+
 
 ## 这个要有，如果不加，只加了上面也没用
 ribbon:
   restclient:
     enabled: false
+
