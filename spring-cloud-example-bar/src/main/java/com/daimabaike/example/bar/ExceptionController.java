@@ -6,10 +6,10 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ExceptionController {
 
-	@ExceptionHandler(Throwable.class)
+//	@ExceptionHandler(Throwable.class)
 	public Object ss(Throwable t) {
 		
 		Map<String,Object> map=new HashMap<>();

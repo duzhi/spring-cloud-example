@@ -3,9 +3,12 @@ package com.daimabaike.example.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.filter.factory.rewrite.RewriteFunction;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+
+import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -14,23 +17,25 @@ public class App {
 	// String uri;
 
 	public static void main(String[] args) {
-//		org.springframework.jdbc.CannotGetJdbcConnectionException
+		// org.springframework.jdbc.CannotGetJdbcConnectionException
 		SpringApplication.run(App.class, args);
 	}
 
 	/**
 	 * 代码先匹配
+	 * 
 	 * @param builder
 	 * @return
 	 */
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+		 RewriteFunction<String, String>   d =  (exchange, s) -> Mono.just(SUCCESS_PREFIX+s+SUCCESS_SUFFIX);
 		// @formatter:off
 		return builder.routes()
 				// 路径路由
 
-				 .route("path_route", r -> r.path("/test/**")
-				 .uri("lb://biz-foo"))
+//				 .route("path_route", r -> r.path("/test/**")
+//				 .uri("lb://biz-bar"))
 //					.route("path_route", r -> r.path("/**")
 //							 .uri("lb://xx"))
 				// .route("path_route2", r -> r.path("/foo/*")
@@ -56,12 +61,23 @@ public class App {
 //								.filters(f -> f.requestRateLimiter(c -> c.setRateLimiter(redisRateLimiter())))
 //								.uri("http://httpbin.org"))
 
+
+
+//			    .route("rewrite_response_upper",
+//			    		r -> r.path("/**")
+//			    			.filters(f -> f.
+//			    					modifyResponseBody(String.class, String.class,d)
+//			    					)
+//			                .uri("lb://biz-bar"))
 				.build();
 		// @formatter:on
 	}
 
-//	@Bean
-//	RedisRateLimiter redisRateLimiter() {
-//		return new RedisRateLimiter(1, 2);
-//	}
+	private static final String SUCCESS_PREFIX = "{\"msg\":\"suczcess\",\"ret\":200,\"data\":";
+	private static final String SUCCESS_SUFFIX = "}";
+
+	// @Bean
+	// RedisRateLimiter redisRateLimiter() {
+	// return new RedisRateLimiter(1, 2);
+	// }
 }

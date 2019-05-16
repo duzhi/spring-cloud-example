@@ -1,6 +1,7 @@
 package com.daimabaike.example.openfeign;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class HiController implements ApplicationContextAware{
 		
 	
 	@GetMapping("/hi")
-	public String sayHi(@RequestParam(defaultValue = "hiw", required = false) String name) {
+	public Map<String,Object> sayHi(@RequestParam(defaultValue = "hiw", required = false) String name) {
 		return hiClient.sayHi(name);
 	}
 	@GetMapping("get")
@@ -40,7 +41,6 @@ public class HiController implements ApplicationContextAware{
 
 //		rest.set
 		
-		System.out.println(	ac.getBean(HiClient.HiClientImpl2.class));
 		
 		return name + new Date();
 	}

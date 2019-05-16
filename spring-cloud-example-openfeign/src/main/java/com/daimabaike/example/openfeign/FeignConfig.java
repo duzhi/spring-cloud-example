@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import feign.Retryer;
 
-@Configuration
+//@Configuration
 public class FeignConfig {
-	@Bean
+//	@Bean
     public Retryer feignRetryer() {
          return new Retryer.Default(100, SECONDS.toMillis(20), 5);
     }

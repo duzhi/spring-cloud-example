@@ -3,11 +3,13 @@ server:
 
 debug: true
 
+
 # 注释
 spring:
   application:
     name: gateway
   cloud:
+      
 #    consul:
 #      host: localhost
 #      port: 8500
@@ -19,12 +21,9 @@ spring:
         uri: lb://biz-bar
         predicates:
         - Path=/test/**
-      - id: b_route
+      - id: a_route
         uri: lb://biz-foo
         predicates:
         - Path=/**
-      - id: b_route2
-        uri: lb://biz-bar
-        predicates:
-        - Path=/get
+    
 #http://example.org

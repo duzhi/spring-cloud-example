@@ -2,7 +2,9 @@ package com.daimabaike.example.gateway;
 
 import java.util.Date;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,17 +21,23 @@ public class AController {
 		return Mono.just("shutdown=" + MyHealthIndicator.shutdown);
 	}
 	
-	@RequestMapping("/hw")
+	@PostMapping("/hw")
 	public Mono<String> hw() {
-		
-		return Mono.just("hi" + new Date());
-	}
-	@RequestMapping("/hw2")
-	public String hw2() {
-		
-//		return Mono.just("hi" + new Date());
-//		return "hw2" + new Date();
-		throw new NullPointerException("ddd");
+		return Mono.just("post hi" + new Date());
 	}
 	
+	@GetMapping("/hw2")
+	public Mono<String> hw2() {
+		return Mono.just("get hi" + new Date());
+	}
+	@PostMapping("/hw2")
+	public Mono<String> fgg() {
+		return Mono.just("post hi" + new Date());
+	}
+	
+	@GetMapping("/hw3")
+	public String hw3() {
+		
+		throw new NullPointerException("ddd");
+	}
 }

@@ -1,40 +1,45 @@
 package com.daimabaike.example.openfeign;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.daimabaike.example.openfeign.HiClient.HiClientImpl2;
+import com.daimabaike.example.openfeign.HiClient.HiClientImpl;
 
-import feign.hystrix.FallbackFactory;
-
-@FeignClient(name = "biz-bar", configuration = FeignConfig.class,fallbackFactory = HiClientImpl2.class)
+//fallbackFactory = HiClientImpl2.class
+//, fallback=HiClientImpl.class
+@FeignClient(name = "biz-bar")
 public interface HiClient {
 	@RequestMapping(method = RequestMethod.GET, value = "/hi")
-	String sayHi(@RequestParam("name") String name);
-
-//	@Component
-//	public final class HiClientImpl implements HiClient {
-//		@Override
-//		public String sayHi(String name) {
-//			return "rongduan";
-//		}
-//	}
+	Map<String,Object> sayHi(@RequestParam("name") String name);
 
 	@Component
-	public final class HiClientImpl2 implements FallbackFactory<HiClient> {
+	public final class HiClientImpl implements HiClient {
 		@Override
-		public HiClient create(Throwable t) {
-			return new HiClient() {
-				@Override
-				public String sayHi(String name) {
-					t.printStackTrace();
-					return name + t.getMessage();
-				}
-			};
+		public Map<String,Object> sayHi(String name) {
+			Map<String,Object> map = new HashMap<>();
+			map.put("info", "fallback");
+			return map;
 		}
 	}
+
+//	@Component
+//	public final class HiClientImpl2 implements FallbackFactory<HiClient> {
+//		@Override
+//		public HiClient create(Throwable t) {
+//			return new HiClient() {
+//				@Override
+//				public String sayHi(String name) {
+//					t.printStackTrace();
+//					return name + t.getMessage();
+//				}
+//			};
+//		}
+//	}
 
 }

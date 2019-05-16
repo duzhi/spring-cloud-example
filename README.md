@@ -24,3 +24,12 @@ X-Forwarded-* 追加/覆盖
 如何蓝绿发布：
 /actuator/health
 
+## 异常
+405 Method Not Allowed,如 POST 的 get 请求
+
+1、网关异常，服务找不到503，如何处理？
+2、网关异常，网关 controller 异常？
+
+
+
+

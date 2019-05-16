@@ -1,5 +1,7 @@
 package com.daimabaike.example.bar;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +19,7 @@ public class HiController {
 	boolean delay = false;
 	
 	@GetMapping("/hi")
-	public String home(@RequestParam String name) {//
+	public Map<String,Object> home(@RequestParam String name) {//
 
 		try {
 			if(delay) {
@@ -33,8 +35,12 @@ public class HiController {
 		}
 		
 		System.out.println("HiController " + port);
-		return "hi " + name + ",i am from port:" + port
-				+ "<br /> <br />  <a href=\"https://lingquan.5aiyoo.com/comp/test.html\">file</a>   <br /> <br /> <a href=\"https://lingquan.5aiyoo.com/comp/qytx_jrml_2104.apk\">sdsd</a>";
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("info", "hi " + name + ",i am from port:" + port
+				+ "<br /> <br />  <a href=\"https://lingquan.5aiyoo.com/comp/test.html\">file</a>   <br /> <br /> <a href=\"https://lingquan.5aiyoo.com/comp/qytx_jrml_2104.apk\">sdsd</a>");
+
+	return map;
 	}
 
 	@GetMapping("/test/{a}")

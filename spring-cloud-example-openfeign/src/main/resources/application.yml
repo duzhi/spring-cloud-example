@@ -1,11 +1,19 @@
 server:
   port: 8110
 
+
+
 spring:
   profiles:
     active: dev
   application:
     name: biz-foo
+# 资源路由关且开启异常    
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+
   cloud:
     consul:
       host: localhost
