@@ -1,14 +1,20 @@
 package com.daimabaike.example.bar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class HiController {
@@ -17,10 +23,12 @@ public class HiController {
 	String port;
 
 	boolean delay = false;
-	
+	RestTemplate rest = null;	
 	@GetMapping("/hi")
 	public Map<String,Object> home(@RequestParam String name) {//
 
+
+	    
 		try {
 			if(delay) {
 				Thread.sleep(5100);
