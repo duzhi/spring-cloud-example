@@ -1,7 +1,7 @@
 server:
   port: 8110
 
-
+#debug: true
 
 spring:
   profiles:
@@ -22,7 +22,12 @@ spring:
 #        serviceName: zzz
 # discovery.serviceName可以不配
 
+#feign.httpclient.enabled=false
+#feign.okhttp.enabled=true
+
 feign:
+  okhttp:
+    enabled: true
   hystrix:
     enabled: true
   client:
@@ -35,8 +40,8 @@ feign:
 
 
 
-## 这个要有，如果不加，只加了上面也没用
-ribbon:
-  restclient:
-    enabled: false
+## 这个要有，如果不加，只加了上面也没用？？已废弃
+#ribbon:
+#  restclient:
+#    enabled: false
 

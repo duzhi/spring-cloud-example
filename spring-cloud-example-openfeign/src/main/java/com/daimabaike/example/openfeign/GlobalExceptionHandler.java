@@ -3,21 +3,30 @@ package com.daimabaike.example.openfeign;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//@RestControllerAdvice
+import com.daimabaike.example.common.ClientException;
+
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-//	@ExceptionHandler(Exception.class)
-//	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public Map<String, Object> handleGlobalException(Exception e) {
-		System.out.println("全局异常 ex={}");
-		e.printStackTrace();
+	
+	final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+	@ExceptionHandler(ClientException.class)
+	public ResponseEntity<Map<String, Object>> ex(ClientException t) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("error_code", 40000);
-		map.put("error_msg", e.getClass() + e.getMessage() + e.getCause());
-		return map;
+		
+		log.info("server callback client error:{}{}", t.getCode(), t.getMessage());
+		
+		map.put("code", t.getCode());
+		map.put("message", t.getMessage());
+		log.info("client error:{}{}", t.getCode(), t.getMessage());
+
+		return ResponseEntity.status(HttpStatus.OK).header("x-app-flag", "1").body(map);
 	}
 }

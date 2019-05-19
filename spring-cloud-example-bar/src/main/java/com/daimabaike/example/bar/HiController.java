@@ -1,67 +1,83 @@
 package com.daimabaike.example.bar;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
-import org.apache.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+
+import com.daimabaike.example.common.ClientException;
+import com.daimabaike.example.common.ServerException;
+import com.daimabaike.example.common.User;
+
+import brave.Tracer;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 public class HiController {
 
 	@Value("${server.port}")
 	String port;
 
 	boolean delay = false;
-	RestTemplate rest = null;	
+
+	@Autowired
+	Tracer tracer;
+
 	@GetMapping("/hi")
-	public Map<String,Object> home(@RequestParam String name) {//
+	public User home(@RequestParam String name) {//
 
+		if (new Random().nextInt(10) > 5) {
 
-	    
-		try {
-			if(delay) {
-				Thread.sleep(5100);
-			}
-			
-			if(new Random().nextInt(10) > 5) {
-				throw new NullPointerException("NPE >5");
-			}
-			
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			throw new ClientException(40001, "客户端错误，检查");
+
 		}
-		
-		System.out.println("HiController " + port);
-		
-		Map<String,Object> map = new HashMap<>();
-		map.put("info", "hi " + name + ",i am from port:" + port
+		log.info("tracerId{}", tracer.currentSpan().context().traceIdString());
+
+		log.info("HiController " + port);
+
+		User user = new User();
+
+		user.setName(name);
+		user.setAge(12);
+
+		user.setSignature("hi " + name + ",i am from port:" + port
 				+ "<br /> <br />  <a href=\"https://lingquan.5aiyoo.com/comp/test.html\">file</a>   <br /> <br /> <a href=\"https://lingquan.5aiyoo.com/comp/qytx_jrml_2104.apk\">sdsd</a>");
 
-	return map;
+		return user;
 	}
 
 	@GetMapping("/test/{a}")
 	public String xxx(@PathVariable String a) {//
-		
+
 		delay = Boolean.parseBoolean(a);
-		
+
 		return "delay is " + delay;
 	}
-	
-	@GetMapping("/get")
-	public String xx() {//
+
+	@GetMapping("/sleep/{times}")
+	public String xx(@PathVariable int times) {//
 		
+		if(times > 10) {
+			times = 10;
+		}
+		
+		try {
+			TimeUnit.SECONDS.sleep(times);
+		} catch (InterruptedException e) {
+			// 
+			//throw e;
+			//Thread.currentThread().interrupt();
+			throw new ServerException(50002,"113");
+		}
+		
+		log.info("tracerId{}", tracer.currentSpan().context().traceIdString());
+
 		return "delay is " + delay;
 	}
 }

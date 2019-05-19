@@ -1,7 +1,6 @@
 package com.daimabaike.example.openfeign;
 
 import java.util.Date;
-import java.util.Map;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +11,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daimabaike.example.common.User;
+
+import brave.Tracer;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class HiController implements ApplicationContextAware{
 
 	@Autowired
 	HiClient hiClient;
 	
 //	        setProxy(new java.net.);
-		
+//	@Autowired
+//	FeignClientsConfiguration fc;
+	
+	@Autowired Tracer tracer;
+	
+//	@Autowired Decoder decoder;
 	
 	@GetMapping("/hi")
-	public Map<String,Object> sayHi(@RequestParam(defaultValue = "hiw", required = false) String name) {
+	public User sayHi(@RequestParam(defaultValue = "hiw", required = false) String name) {
+		
+		log.info("tracerId{}" , tracer.currentSpan().context().traceIdString());
+//		log.info("xxx{}",decoder.getClass());
+		
 		return hiClient.sayHi(name);
 	}
 	@GetMapping("get")

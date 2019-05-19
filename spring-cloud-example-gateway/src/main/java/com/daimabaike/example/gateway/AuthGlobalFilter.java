@@ -1,5 +1,6 @@
 package com.daimabaike.example.gateway;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -12,15 +13,24 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+import brave.Tracer;
 import io.netty.buffer.UnpooledByteBufAllocator;
-import reactor.core.publisher.Flux;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
+@Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
+	
+	@Autowired Tracer tracer;
+	
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		System.out.println("Welcome to AuthGlobalFilter.");
+
+		log.info("Welcome to AuthGlobalFilter.");
+		log.info("tracerId{}" , tracer.currentSpan().context().traceIdString());
+		
+		
 		ServerHttpRequest request = exchange.getRequest();
 		String sign = request.getQueryParams().getFirst("sign");
 
