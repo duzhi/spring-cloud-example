@@ -27,7 +27,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Component
+//@Component
 public class ResponseGlobalFilter implements GlobalFilter, Ordered {
 
 	private static final String SUCCESS_PREFIX = "{\"msg\":\"suczcess\",\"ret\":200,\"data\":";

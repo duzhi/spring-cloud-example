@@ -30,7 +30,7 @@ public class HiController {
 	Tracer tracer;
 
 	@GetMapping("/hi")
-	public User home(@RequestParam String name) {//
+	public Result<User> home(@RequestParam String name) {//
 
 		if (new Random().nextInt(10) > 5) {
 
@@ -49,7 +49,7 @@ public class HiController {
 		user.setSignature("hi " + name + ",i am from port:" + port
 				+ "<br /> <br />  <a href=\"https://lingquan.5aiyoo.com/comp/test.html\">file</a>   <br /> <br /> <a href=\"https://lingquan.5aiyoo.com/comp/qytx_jrml_2104.apk\">sdsd</a>");
 
-		return user;
+		return Result.ok(user);
 	}
 
 	@GetMapping("/test/{a}")

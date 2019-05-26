@@ -18,8 +18,14 @@ import feign.hystrix.FallbackFactory;
 public interface HiClient {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/hi")
-	User sayHi(@RequestParam("name") String name);
-
+	ResultUser sayHi(@RequestParam("name") String name);
+	
+	public class ResultUser extends Result<User>{
+		public ResultUser() {
+		//	super.setData(new User());
+		}
+	}
+	
 	// fallback 发生的条件是 超时，5xx 错误？4xx 错误不会走这个？
 	@Component
 	public final class HiClientImpl2 implements FallbackFactory<HiClient> {
@@ -29,7 +35,7 @@ public interface HiClient {
 		public HiClient create(Throwable t) {
 			return new HiClient() {
 				@Override
-				public User sayHi(String name) {
+				public ResultUser sayHi(String name) {
 
 					log.error("error sayHi:", t.getClass());
 					log.error("error sayHi:", t);

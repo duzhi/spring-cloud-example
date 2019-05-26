@@ -40,7 +40,7 @@ public class FeignConfig {
 			@Override
 			public Object decode(Response response, Type type) {
 				log.info("=============================================================" + type);
-
+				
 				try {
 					String rsp = Util.toString(response.body().asReader());
 					log.info("rsp ==={}, ", rsp);
@@ -49,7 +49,7 @@ public class FeignConfig {
 					// if (httpStatus.is2xxSuccessful()) {
 					return JSONObject.parseObject(rsp, type);
 					// }
-
+//return rsp;
 					// throw new ServerException("50003", "2324342");
 				} catch (Throwable e) {
 					throw new ServerException(50004, "是的方式发送到发");

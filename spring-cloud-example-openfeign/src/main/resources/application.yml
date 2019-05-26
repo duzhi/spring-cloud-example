@@ -26,8 +26,8 @@ spring:
 #feign.okhttp.enabled=true
 
 feign:
-  okhttp:
-    enabled: true
+#  okhttp:
+#    enabled: true
   hystrix:
     enabled: true
   client:
