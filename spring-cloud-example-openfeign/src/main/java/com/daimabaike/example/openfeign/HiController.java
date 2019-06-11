@@ -1,5 +1,6 @@
 package com.daimabaike.example.openfeign;
 
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,6 +18,10 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,14 +46,28 @@ public class HiController implements ApplicationContextAware {
 	// @Autowired
 	// FeignClientsConfiguration fc;
 
-	@Autowired
 	Tracer tracer;
 
 	// @Autowired Decoder decoder;
 
+	@Autowired
+    @Qualifier("phoenixJdbcTemplate")
+	private JdbcTemplate xJdbcTemplate;
+	
+	private NamedParameterJdbcTemplate njt;
+	
 	@GetMapping("/hi")
 	public Result<User> sayHi(@RequestParam(defaultValue = "hiw", required = false) String name) {
 
+//		Arrays.
+		xJdbcTemplate.queryForList("where k=:k",new Object[] {""}, User.class);
+		
+		MapSqlParameterSource sps = new MapSqlParameterSource();
+		sps.addValue("name", "lusc");
+		njt.queryForList("", sps , User.class);
+		
+		njt.batchUpdate("", new SqlParameterSource[] {sps});
+		
 		log.info("tracerId{}", tracer.currentSpan().context().traceIdString());
 		// log.info("xxx{}",decoder.getClass());
 

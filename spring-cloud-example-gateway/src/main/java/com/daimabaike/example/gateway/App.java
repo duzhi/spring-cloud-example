@@ -1,17 +1,17 @@
 package com.daimabaike.example.gateway;
 
+import javax.xml.ws.ResponseWrapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.gateway.filter.factory.rewrite.RewriteFunction;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
-
-import reactor.core.publisher.Mono;
+import org.springframework.http.codec.ServerCodecConfigurer;
+import org.springframework.web.reactive.accept.RequestedContentTypeResolver;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 public class App {
 
 	// String uri;
@@ -29,7 +29,7 @@ public class App {
 	 */
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-		 RewriteFunction<String, String>   d =  (exchange, s) -> Mono.just(SUCCESS_PREFIX+s+SUCCESS_SUFFIX);
+//		 RewriteFunction<String, String>   d =  (exchange, s) -> Mono.just(SUCCESS_PREFIX+s+SUCCESS_SUFFIX);
 		// @formatter:off
 		return builder.routes()
 				// 路径路由
@@ -80,4 +80,23 @@ public class App {
 	// RedisRateLimiter redisRateLimiter() {
 	// return new RedisRateLimiter(1, 2);
 	// }
+//	@Bean
+//	public ResponseResultHandler ResponseResultHandler1() {
+//		return new ResponseResultHandler();
+//	}
+	
+    @Autowired
+    ServerCodecConfigurer        serverCodecConfigurer;
+    @Autowired
+    RequestedContentTypeResolver requestedContentTypeResolver;
+
+    @Bean
+    ResponseResultHandler responseWrapper() {
+    	
+    	System.out.println("serverCodecConfigurer="+serverCodecConfigurer);
+    	
+        return new ResponseResultHandler(serverCodecConfigurer
+                .getWriters(), requestedContentTypeResolver);
+    }
+
 }

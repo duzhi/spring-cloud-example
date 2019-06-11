@@ -9,6 +9,9 @@ public class GatewayErrorWebExceptionHandler implements ErrorWebExceptionHandler
 
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+		
+		
+		
 		return null;
 	}
 
